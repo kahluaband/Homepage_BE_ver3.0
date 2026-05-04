@@ -1,4 +1,4 @@
-# Homepage_BE_SpringBoot
+# Homepage_BE_ver3.0
 ### Kahluaproject Spring Boot version
 
 <img src="https://github.com/user-attachments/assets/9b42ebb8-a85c-4146-8596-b50f797b02f6" height=70% width=70%>
@@ -21,10 +21,9 @@
 
 <div align="left">
 
-| **강지윤** | **박상욱** | **염지은**  |
-| :------: |  :------: | :------:  |
-| [<img src="https://avatars.githubusercontent.com/u/112507402?v=4" height=200 width=200> <br/> @kjiyun](https://github.com/kjiyun) | [<img src="https://avatars.githubusercontent.com/u/140885810?v=4" height=200 width=200> <br/> @woogieon8on](https://github.com/woogieon8on) | [<img src="https://avatars.githubusercontent.com/u/109282927?v=4" height=200 width=200> <br/> @yumzen](https://github.com/yumzen)|
+이한재: [@leehanjay](https://github.com/leehanjay)
 
+최승원: [@Seungwon326](https://github.com/Seungwon326)
 </div>
 
 ## 개발 환경
