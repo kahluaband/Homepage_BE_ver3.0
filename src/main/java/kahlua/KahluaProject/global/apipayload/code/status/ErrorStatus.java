@@ -10,8 +10,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorStatus implements BaseCode {
 
-    // 에러 응답 (둘 중 하나 삭제)
-    INTERNER_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal_Server_Error", "서버 에러"),
+    // 에러 응답
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "서버 에러"),
 
     // 로그인 실패

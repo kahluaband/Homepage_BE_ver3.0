@@ -1,9 +1,9 @@
 package kahlua.KahluaProject.global.security;
 
 import kahlua.KahluaProject.global.apipayload.code.status.ErrorStatus;
-import kahlua.KahluaProject.domain.user.User;
+import kahlua.KahluaProject.domain.user.entity.User;
 import kahlua.KahluaProject.global.exception.GeneralException;
-import kahlua.KahluaProject.repository.UserRepository;
+import kahlua.KahluaProject.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

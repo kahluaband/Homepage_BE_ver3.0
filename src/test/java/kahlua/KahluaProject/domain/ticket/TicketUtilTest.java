@@ -1,10 +1,14 @@
 package kahlua.KahluaProject.domain.ticket;
 
+import kahlua.KahluaProject.domain.ticket.entity.Meeting;
+import kahlua.KahluaProject.domain.ticket.entity.Participants;
+import kahlua.KahluaProject.domain.ticket.entity.Ticket;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import static kahlua.KahluaProject.domain.ticket.Type.FRESHMAN;
-import static kahlua.KahluaProject.domain.ticket.Type.GENERAL;
+import static kahlua.KahluaProject.domain.ticket.entity.Type.FRESHMAN;
+import static kahlua.KahluaProject.domain.ticket.entity.Type.GENERAL;
 
 // 모든 테스트에서 일관되게 사용할 수 있는 mock data를 만드는 클래스
 public class TicketUtilTest {

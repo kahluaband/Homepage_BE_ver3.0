@@ -40,4 +40,4 @@ out/
 application.yml
 docker-compose.yml
 
-test.html
+test.html.DS_Store

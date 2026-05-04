@@ -1,7 +1,7 @@
 package kahlua.KahluaProject.global.websocket;
 
-import kahlua.KahluaProject.domain.user.User;
-import kahlua.KahluaProject.repository.UserRepository;
+import kahlua.KahluaProject.domain.user.entity.User;
+import kahlua.KahluaProject.domain.user.repository.UserRepository;
 import kahlua.KahluaProject.global.security.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

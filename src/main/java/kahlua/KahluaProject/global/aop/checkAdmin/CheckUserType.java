@@ -1,6 +1,6 @@
 package kahlua.KahluaProject.global.aop.checkAdmin;
 
-import kahlua.KahluaProject.domain.user.UserType;
+import kahlua.KahluaProject.domain.user.entity.UserType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

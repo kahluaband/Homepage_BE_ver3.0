@@ -1,6 +1,6 @@
 package kahlua.KahluaProject.global.websocket;
 
-import kahlua.KahluaProject.dto.reservation.request.SubRequest;
+import kahlua.KahluaProject.domain.reservation.dto.request.SubRequest;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
-
-import java.security.Principal;
-import java.util.Map;
-import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor

@@ -1,6 +1,6 @@
 package kahlua.KahluaProject.global.security;
 
-import kahlua.KahluaProject.domain.user.User;
+import kahlua.KahluaProject.domain.user.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,13 +1,16 @@
 package kahlua.KahluaProject.domain.ticket;
 
+import kahlua.KahluaProject.domain.ticket.entity.Meeting;
+import kahlua.KahluaProject.domain.ticket.entity.Participants;
+import kahlua.KahluaProject.domain.ticket.entity.Ticket;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static kahlua.KahluaProject.domain.ticket.Type.FRESHMAN;
-import static kahlua.KahluaProject.domain.ticket.Type.GENERAL;
+import static kahlua.KahluaProject.domain.ticket.entity.Type.FRESHMAN;
+import static kahlua.KahluaProject.domain.ticket.entity.Type.GENERAL;
 
 @DisplayName("Ticket 도메인 테스트")
 public class ticketDomainTest {

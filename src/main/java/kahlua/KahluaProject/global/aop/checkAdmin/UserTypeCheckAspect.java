@@ -1,7 +1,7 @@
 package kahlua.KahluaProject.global.aop.checkAdmin;
 
-import kahlua.KahluaProject.domain.user.User;
-import kahlua.KahluaProject.domain.user.UserType;
+import kahlua.KahluaProject.domain.user.entity.User;
+import kahlua.KahluaProject.domain.user.entity.UserType;
 import kahlua.KahluaProject.global.apipayload.code.status.ErrorStatus;
 import kahlua.KahluaProject.global.exception.GeneralException;
 import kahlua.KahluaProject.global.security.AuthDetails;
