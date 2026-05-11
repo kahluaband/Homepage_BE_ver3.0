@@ -42,3 +42,5 @@ docker-compose.yml
 
 test.html.DS_Store
 .DS_Store
+
+*.pem

@@ -11,7 +11,7 @@ jobs:
     with:
       java-version: "17"
       distribution: "temurin"
-      image-name: kahlua-web
+      image-name: kahlua-backend
       write-application-yml: true
     secrets:
       APPLICATION: ${{ secrets.APPLICATION }}
