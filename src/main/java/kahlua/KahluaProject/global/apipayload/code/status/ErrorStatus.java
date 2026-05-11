@@ -58,6 +58,11 @@ public enum ErrorStatus implements BaseCode {
     //공연 관련 에러
     PERFORMANCE_NOT_FOUND(HttpStatus.NOT_FOUND,"PERFORMANCE_NOT_FOUND","공연 정보를 찾을 수 없습니다."),
 
+    // 앨범/사진 에러
+    ALBUM_NOT_FOUND(HttpStatus.NOT_FOUND, "ALBUM_NOT_FOUND", "존재하지 않는 앨범입니다."),
+    CATEGORY_NOT_FOUND(HttpStatus.BAD_REQUEST, "CATEGORY_NOT_FOUND", "존재하지 않는 카테고리입니다."),
+    PHOTO_NOT_FOUND(HttpStatus.NOT_FOUND, "PHOTO_NOT_FOUND", "존재하지 않는 사진입니다."),
+
     ;
 
     private final HttpStatus httpStatus;
