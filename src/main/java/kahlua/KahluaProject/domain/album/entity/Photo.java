@@ -32,6 +32,9 @@ public class Photo extends BaseEntity {
     @Column(nullable = false)
     private String imageUrl; // Presigned URL로 업로드된 원본 이미지 S3 URL
 
+    @Column(nullable = false)
+    private String s3Key;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Category category;

@@ -74,10 +74,10 @@ public class AlbumConverter {
                 .build();
     }
 
-    public static List<Photo> toPhotoList(PhotoRegisterRequest request, Album album, User currentUser) {
+    public static List<Photo> toPhotoList(PhotoRegisterRequest request, Album album, User currentUser, String baseUrl) {
         return request.getPhotos().stream()
                 .map(item -> {
-                    String originalUrl = item.getImageUrl();
+                    String originalUrl = baseUrl + item.getS3Key();
                     String thumbnailUrl = originalUrl.replace("/origin/", "/thumb/");
                     int dotIndex = thumbnailUrl.lastIndexOf(".");
                     if (dotIndex != -1) {
@@ -87,6 +87,7 @@ public class AlbumConverter {
                     return Photo.builder()
                             .imageUrl(originalUrl)
                             .thumbnailUrl(thumbnailUrl)
+                            .s3Key(item.getS3Key())
                             .category(item.getCategory())
                             .album(album)
                             .uploader(currentUser)
@@ -117,6 +118,24 @@ public class AlbumConverter {
 
         return PhotoRegisterResponse.builder()
                 .uploadedPhotos(uploadedPhotos)
+                .build();
+    }
+
+    public static ReactionResponse toReactionResponse(
+            Long photoId,
+            EmojiType requestedEmoji,
+            long currentCount,
+            boolean isClicked,
+            EmojiType previousEmoji,
+            Long previousCount
+    ) {
+        return ReactionResponse.builder()
+                .photoId(photoId)
+                .emojiType(requestedEmoji)
+                .currentCount(currentCount)
+                .isClicked(isClicked)
+                .previousEmojiType(previousEmoji)
+                .previousCount(previousCount)
                 .build();
     }
 }
