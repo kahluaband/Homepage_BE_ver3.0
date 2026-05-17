@@ -10,7 +10,15 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "photo_reaction")
+@Table(
+        name = "photo_reaction",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_photo_user_reaction",
+                        columnNames = {"photo_id", "user_id"}
+                )
+        }
+)
 public class PhotoReaction extends BaseEntity {
 
     @Id
@@ -29,4 +37,9 @@ public class PhotoReaction extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EmojiType emojiType;
+
+    // 이모지 변경 메서드
+    public void updateEmoji(EmojiType newEmojiType) {
+        this.emojiType = newEmojiType;
+    }
 }
