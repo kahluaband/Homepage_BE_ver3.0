@@ -20,9 +20,6 @@ public class PhotoRegisterRequest {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @AllArgsConstructor
     public static class PhotoItem {
-        @Schema(description = "원본 이미지 URL")
-        private String imageUrl;
-
         @Schema(description = "s3Key")
         private String s3Key;
 

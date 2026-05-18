@@ -101,12 +101,8 @@ public class S3Service {
         expiration.setTime(expTimeMillis);
 
         try {
-            // 한글 파일명이 깨지지 않도록 UTF-8 인코딩 처리
-            String encodedFileName = URLEncoder.encode(downloadFileName, StandardCharsets.UTF_8.toString())
-                    .replaceAll("\\+", "%20");
-
             ResponseHeaderOverrides headerOverrides = new ResponseHeaderOverrides()
-                    .withContentDisposition("attachment; filename*=UTF-8''" + encodedFileName);
+                    .withContentDisposition("attachment; filename=\"" + downloadFileName + "\"");
 
             GeneratePresignedUrlRequest generatePresignedUrlRequest =
                     new GeneratePresignedUrlRequest(bucket, s3Key)
@@ -134,7 +130,7 @@ public class S3Service {
                     if (dotIndex != -1) {
                         extension = photo.getS3Key().substring(dotIndex);
                     }
-                    String fileName = "KAHLUA_사진다운로드_" + photo.getId() + extension;
+                    String fileName = "KAHLUA_PHOTO_" + photo.getId() + extension;
 
                     // ZIP 엔트리 생성
                     ZipEntry zipEntry = new ZipEntry(fileName);
