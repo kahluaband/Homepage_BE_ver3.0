@@ -181,7 +181,7 @@ public class AlbumService {
             extension = s3Key.substring(dotIndex); // ex: .jpg, .png
         }
 
-        String fileName = String.format("KAHLUA_사진다운로드_%d%s", photoId, extension);
+        String fileName = String.format("KAHLUA_PHOTO_%d%s", photoId, extension);
 
         String downloadUrl = s3Service.getDownloadPresignedUrl(s3Key, fileName);
 
