@@ -101,14 +101,10 @@ public class S3Service {
         expiration.setTime(expTimeMillis);
 
         try {
-            ResponseHeaderOverrides headerOverrides = new ResponseHeaderOverrides()
-                    .withContentDisposition("attachment; filename=\"" + downloadFileName + "\"");
-
             GeneratePresignedUrlRequest generatePresignedUrlRequest =
                     new GeneratePresignedUrlRequest(bucket, s3Key)
                             .withMethod(HttpMethod.GET)
-                            .withExpiration(expiration)
-                            .withResponseHeaders(headerOverrides); // 강제 다운로드 로직
+                            .withExpiration(expiration);
 
             URL url = amazonS3.generatePresignedUrl(generatePresignedUrlRequest);
             return url.toString();
