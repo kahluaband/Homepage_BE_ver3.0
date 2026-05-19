@@ -10,6 +10,7 @@ import kahlua.KahluaProject.domain.album.entity.Photo;
 import kahlua.KahluaProject.global.apipayload.code.status.ErrorStatus;
 import kahlua.KahluaProject.global.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
@@ -24,6 +25,7 @@ import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class S3Service {
@@ -63,7 +65,7 @@ public class S3Service {
                             .withExpiration(expiration);
 
             // 프론트엔드가 이 타입으로 올리겠다고 명시
-            generatePresignedUrlRequest.addRequestParameter(Headers.CONTENT_TYPE, file.getFileType());
+            generatePresignedUrlRequest.setContentType(file.getFileType());
 
             // 실제 URL 발급
             URL presignedUrl = amazonS3.generatePresignedUrl(generatePresignedUrlRequest);
@@ -101,12 +103,17 @@ public class S3Service {
         expiration.setTime(expTimeMillis);
 
         try {
+            ResponseHeaderOverrides headerOverrides = new ResponseHeaderOverrides()
+                    .withContentDisposition("attachment; filename=\"" + downloadFileName + "\"");
+
             GeneratePresignedUrlRequest generatePresignedUrlRequest =
                     new GeneratePresignedUrlRequest(bucket, s3Key)
                             .withMethod(HttpMethod.GET)
-                            .withExpiration(expiration);
+                            .withExpiration(expiration)
+                            .withResponseHeaders(headerOverrides);
 
             URL url = amazonS3.generatePresignedUrl(generatePresignedUrlRequest);
+            log.info("발급된 URL: {}", url.toString());
             return url.toString();
 
         } catch (Exception e) {

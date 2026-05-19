@@ -52,7 +52,7 @@ public class AlbumService {
 
     public PhotoDetailResponse getPhotoDetail(Long albumId, Long photoId, User currentUser) {
 
-        Photo photo = photoRepository.findByIdAndAlbumIdAndDeletedAtIsNull(photoId, albumId)
+        Photo photo = photoRepository.findByIdAndAlbumId(photoId, albumId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.PHOTO_NOT_FOUND));
 
         List<PhotoReaction> reactions = photoReactionRepository.findAllByPhoto(photo);
@@ -101,6 +101,13 @@ public class AlbumService {
             throw new GeneralException(ErrorStatus.PHOTO_NOT_FOUND);
         }
 
+        boolean isAllInSameAlbum = photos.stream()
+                .allMatch(photo -> photo.getAlbum().getId().equals(albumId));
+
+        if (!isAllInSameAlbum) {
+            throw new GeneralException(ErrorStatus.PHOTO_NOT_FOUND);
+        }
+
         // S3에서 삭제할 Key 추출
         List<String> s3Keys = photos.stream()
                 .map(Photo::getS3Key)
@@ -122,7 +129,7 @@ public class AlbumService {
     @Transactional
     public ReactionResponse toggleReaction(Long albumId, Long photoId, ReactionRequest request, User currentUser) {
 
-        Photo photo = photoRepository.findByIdAndAlbumIdAndDeletedAtIsNull(photoId, albumId)
+        Photo photo = photoRepository.findByIdAndAlbumId(photoId, albumId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.PHOTO_NOT_FOUND));
 
         EmojiType requestedEmoji = request.getEmojiType();
@@ -170,7 +177,7 @@ public class AlbumService {
 
     public PhotoDownloadResponse downloadPhoto(Long albumId, Long photoId) {
 
-        Photo photo = photoRepository.findByIdAndAlbumIdAndDeletedAtIsNull(photoId, albumId)
+        Photo photo = photoRepository.findByIdAndAlbumId(photoId, albumId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.PHOTO_NOT_FOUND));
 
         // 확장자 추출 (s3Key에서 마지막 '.' 이후 문자열)

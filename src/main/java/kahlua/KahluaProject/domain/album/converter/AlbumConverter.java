@@ -7,6 +7,8 @@ import kahlua.KahluaProject.domain.album.entity.EmojiType;
 import kahlua.KahluaProject.domain.album.entity.Photo;
 import kahlua.KahluaProject.domain.album.entity.PhotoReaction;
 import kahlua.KahluaProject.domain.user.entity.User;
+import kahlua.KahluaProject.global.apipayload.code.status.ErrorStatus;
+import kahlua.KahluaProject.global.exception.GeneralException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -75,8 +77,13 @@ public class AlbumConverter {
     }
 
     public static List<Photo> toPhotoList(PhotoRegisterRequest request, Album album, User currentUser, String baseUrl) {
+        String expectedPrefix = "kahlua/albums/" + album.getId() + "/origin/";
+
         return request.getPhotos().stream()
                 .map(item -> {
+                    if (!item.getS3Key().startsWith(expectedPrefix)) {
+                        throw new GeneralException(ErrorStatus.INVALID_IMAGE_PATH);
+                    }
                     String originalUrl = baseUrl + item.getS3Key();
                     String thumbnailUrl = originalUrl.replace("/origin/", "/thumb/");
                     int dotIndex = thumbnailUrl.lastIndexOf(".");
