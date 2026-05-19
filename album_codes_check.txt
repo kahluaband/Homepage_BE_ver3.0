@@ -1,0 +1,1427 @@
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/dto/response/PhotoItemResponse.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.dto.response;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
+import lombok.Getter;
+
+import java.time.LocalDateTime;
+
+@Getter
+@Builder
+public class PhotoItemResponse {
+
+    @Schema(description = "사진 ID", example = "200")
+    private Long photoId;
+
+    @Schema(description = "썸네일(저화질) URL", example = "https://cdn.kahluaband.com/thumb/photo200.webp")
+    private String thumbnailUrl;
+
+    @Schema(description = "업로더 이름", example = "최승원")
+    private String uploaderName;
+
+    @Schema(description = "카테고리", example = "공연")
+    private String category;
+
+    @Schema(description = "생성 일자", example = "2026-03-16")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    private LocalDateTime createdAt;
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/dto/response/PhotoListResponse.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.dto.response;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
+import lombok.Getter;
+
+import java.util.List;
+
+@Getter
+@Builder
+public class PhotoListResponse {
+
+    @Schema(description = "앨범 ID", example = "1")
+    private Long albumId;
+
+    @Schema(description = "앨범 제목", example = "깔루아 공유 앨범")
+    private String albumTitle;
+
+    @Schema(description = "사진 목록")
+    private List<PhotoItemResponse> content;
+
+    @Schema(description = "마지막 사진의 ID (다음 요청 시 cursor로 사용)", example = "189")
+    private Long cursor;
+
+    @Schema(description = "다음 데이터를 더 불러올 수 있는지 여부", example = "true")
+    private Boolean hasNext;
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/dto/response/UploaderInfo.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.dto.response;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+public class UploaderInfo {
+    @Schema(description = "업로더 ID", example = "42")
+    private Long id;
+
+    @Schema(description = "업로더 이름", example = "이한재")
+    private String name;
+
+    @Schema(description = "업로더 기수", example = "21기")
+    private String term;
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/dto/response/PhotoDeleteResponse.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.dto.response;
+
+import lombok.Builder;
+import lombok.Getter;
+import java.util.List;
+
+@Getter
+@Builder
+public class PhotoDeleteResponse {
+    private List<Long> deletedPhotoIds;
+    private Integer deletedCount;
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/dto/response/ReactionItemResponse.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.dto.response;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+public class ReactionItemResponse {
+    @Schema(description = "이모지 종류 (LIKE, HEART, SMILE, SAD, ANGRY)", example = "HEART")
+    private String emojiType;
+
+    @Schema(description = "해당 이모지 누적 개수", example = "10")
+    private int count;
+
+    @Schema(description = "현재 접속한 사용자가 눌렀는지 여부", example = "true")
+    private boolean isClicked;
+}
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/dto/response/PresignedUrlResponse.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.dto.response;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
+import lombok.Getter;
+import java.util.List;
+
+@Getter
+@Builder
+public class PresignedUrlResponse {
+
+    @Schema(description = "발급된 URL 목록")
+    private List<UrlItem> urlList;
+
+    @Getter
+    @Builder
+    public static class UrlItem {
+        @Schema(description = "S3 직접 업로드를 위한 Presigned-URL")
+        private String presignedUrl;
+
+        @Schema(description = "s3Key")
+        private String s3Key;
+    }
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/dto/response/PhotoDownloadResponse.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.dto.response;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+public class PhotoDownloadResponse {
+
+    @Schema(description = "사진 ID", example = "200")
+    private Long photoId;
+
+    @Schema(description = "사용자가 보게 될 파일 이름", example = "KAHLUA_21기_최승원_20260316.jpg")
+    private String fileName;
+
+    @Schema(description = "다운로드를 위한 Presigned URL")
+    private String downloadUrl;
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/dto/response/PhotoDetailResponse.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.dto.response;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
+import lombok.Getter;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Getter
+@Builder
+public class PhotoDetailResponse {
+    @Schema(description = "사진 ID", example = "200")
+    private Long photoId;
+
+    @Schema(description = "오리지널(고화질) URL", example = "https://cdn.kahluaband.com/photo200.webp")
+    private String originalUrl;
+
+    @Schema(description = "카테고리", example = "공연")
+    private String category;
+
+    @Schema(description = "업로더 이름", example = "최승원")
+    private UploaderInfo uploader;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    private LocalDateTime createdAt;
+
+    private List<ReactionItemResponse> reactions;
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/dto/response/PhotoRegisterResponse.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.dto.response;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
+import lombok.Getter;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Getter
+@Builder
+public class PhotoRegisterResponse {
+
+    @Schema(description = "업로드 완료된 사진 목록")
+    private List<UploadedPhoto> uploadedPhotos;
+
+    @Getter
+    @Builder
+    public static class UploadedPhoto {
+        private Long photoId;
+        private String thumbnailUrl;
+        private String originalUrl;
+        private String category;
+        private UploaderInfo uploader;
+
+        @Schema(description = "생성 시간", example = "2026-05-08 17:25:45")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+        private LocalDateTime createdAt;
+    }
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/dto/response/ReactionResponse.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.dto.response;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import kahlua.KahluaProject.domain.album.entity.EmojiType;
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+public class ReactionResponse {
+    @Schema(description = "사진 ID", example = "200")
+    private Long photoId;
+
+    @Schema(description = "반응한 이모지 종류", example = "HEART")
+    private EmojiType emojiType;
+
+    @Schema(description = "반응한 이모지의 현재 누적 개수", example = "11")
+    private Long currentCount;
+
+    @Schema(description = "현재 사용자가 이 이모지를 누른 상태인지 여부 (취소 시 false)", example = "true")
+    private Boolean isClicked;
+
+    @Schema(description = "다른 이모지로 변경 시, 기존에 눌렀던 이모지 종류 (없거나 단순 취소 시 null)", example = "SAD")
+    private EmojiType previousEmojiType;
+
+    @Schema(description = "다른 이모지로 변경 시, 기존 이모지의 변경 반영 후 최신 개수", example = "4")
+    private Long previousCount;
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/dto/request/PhotoDownloadListRequest.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.dto.request;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import java.util.List;
+
+@Getter
+public class PhotoDownloadListRequest {
+    @Schema(description = "다운로드할 사진 ID 목록", example = "[200, 201, 205, 210]")
+    private List<Long> photoIds;
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/dto/request/PhotoRegisterRequest.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.dto.request;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import kahlua.KahluaProject.domain.album.entity.Category;
+import lombok.*;
+
+import java.util.List;
+
+@Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+public class PhotoRegisterRequest {
+
+    @Schema(description = "등록할 사진 목록 (최대 20개)")
+    private List<PhotoItem> photos;
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor
+    public static class PhotoItem {
+        @Schema(description = "s3Key")
+        private String s3Key;
+
+        @Schema(description = "카테고리", example = "PERFORMANCE")
+        private Category category;
+
+        @Schema(description = "업로더 이름 (참고용)", example = "이한재")
+        private String uploader;
+    }
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/dto/request/ReactionRequest.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.dto.request;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import kahlua.KahluaProject.domain.album.entity.EmojiType;
+import lombok.Getter;
+
+@Getter
+public class ReactionRequest {
+    @Schema(description = "이모지 종류 (LAUGH, ANGRY, SAD, HEART, CONFUSED)", example = "HEART")
+    private EmojiType emojiType;
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/dto/request/PresignedUrlRequest.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.dto.request;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import java.util.List;
+
+@Getter
+public class PresignedUrlRequest {
+
+    @Schema(description = "업로드할 파일 목록 (최대 20개)")
+    private List<FileItem> files;
+
+    @Getter
+    public static class FileItem {
+        @Schema(description = "원본 파일명", example = "image1.jpg")
+        private String fileName;
+
+        @Schema(description = "파일 타입", example = "image/jpeg")
+        private String fileType;
+    }
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/dto/request/PhotoDeleteRequest.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.dto.request;
+
+import lombok.Getter;
+import java.util.List;
+
+@Getter
+public class PhotoDeleteRequest {
+    private List<Long> photoIds;
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/repository/PhotoRepositoryCustom.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.repository;
+
+import kahlua.KahluaProject.domain.album.entity.Category;
+import kahlua.KahluaProject.domain.album.entity.Photo;
+import java.util.List;
+
+public interface PhotoRepositoryCustom {
+    List<Photo> findPhotosByCursorAndCategory(Long albumId, Category category, Long cursor, int size);
+
+    // 내가 반응한 사진 목록 조회
+    List<Photo> findReactedPhotosByCursor(Long albumId, Long userId, Long cursor, int size);
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/repository/PhotoRepository.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.repository;
+
+import kahlua.KahluaProject.domain.album.entity.Photo;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface PhotoRepository extends JpaRepository<Photo, Long>, PhotoRepositoryCustom {
+
+    // 앨범 ID와 사진 ID가 일치하며 삭제되지 않은 사진 조회
+    Optional<Photo> findByIdAndAlbumIdAndDeletedAtIsNull(Long id, Long albumId);
+
+
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/repository/PhotoReactionRepository.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.repository;
+
+import kahlua.KahluaProject.domain.album.entity.EmojiType;
+import kahlua.KahluaProject.domain.album.entity.Photo;
+import kahlua.KahluaProject.domain.album.entity.PhotoReaction;
+import kahlua.KahluaProject.domain.user.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface PhotoReactionRepository extends JpaRepository<PhotoReaction, Long> {
+
+    // 특정 사진에 달린 모든 반응 데이터를 한 번에 가져옴
+    List<PhotoReaction> findAllByPhoto(Photo photo);
+
+    @Modifying
+    @Query("DELETE FROM PhotoReaction pr WHERE pr.photo IN :photos")
+    void deleteAllByPhotoInQuery(@Param("photos") List<Photo> photos);
+
+    // 특정 사진에 대해 특정 유저가 남긴 반응 찾기
+    Optional<PhotoReaction> findByPhotoAndUser(Photo photo, User user);
+
+    // 특정 사진의 특정 이모지 누적 개수 구하기
+    long countByPhotoAndEmojiType(Photo photo, EmojiType emojiType);
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/repository/AlbumRepository.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.repository;
+
+import kahlua.KahluaProject.domain.album.entity.Album;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
+
+public interface AlbumRepository extends JpaRepository<Album, Long> {
+    Optional<Album> findByIdAndDeletedAtIsNull(Long id);
+}
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/repository/PhotoRepositoryImpl.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.repository;
+
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import kahlua.KahluaProject.domain.album.entity.Category;
+import kahlua.KahluaProject.domain.album.entity.Photo;
+import kahlua.KahluaProject.domain.album.entity.QPhotoReaction;
+import kahlua.KahluaProject.domain.user.entity.QUser;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+import static kahlua.KahluaProject.domain.album.entity.QPhoto.photo;
+
+@Repository
+@RequiredArgsConstructor
+public class PhotoRepositoryImpl implements PhotoRepositoryCustom {
+
+    private final JPAQueryFactory queryFactory;
+
+    @Override
+    public List<Photo> findPhotosByCursorAndCategory(Long albumId, Category category, Long cursor, int size) {
+        QUser user = QUser.user;
+
+        return queryFactory
+                .selectFrom(photo)
+                .join(photo.uploader, user).fetchJoin()
+                .where(
+                        photo.album.id.eq(albumId),
+                        categoryEq(category),
+                        cursorLt(cursor)
+                )
+                .orderBy(photo.id.desc())
+                .limit(size + 1)
+                .fetch();
+    }
+
+    @Override
+    public List<Photo> findReactedPhotosByCursor(Long albumId, Long userId, Long cursor, int size) {
+        QUser user = QUser.user;
+        QPhotoReaction photoReaction = QPhotoReaction.photoReaction;
+
+        return queryFactory
+                .select(photoReaction.photo)
+                .from(photoReaction)
+                .join(photoReaction.photo, photo)
+                .join(photo.uploader, user).fetchJoin()
+                .where(
+                        photo.album.id.eq(albumId),
+                        photoReaction.user.id.eq(userId), // 현재 로그인한 사용자가 남긴 반응
+                        cursorLt(cursor)
+                )
+                .distinct() // 한 사진에 여러 반응을 남겼을 경우 중복 조회 방지
+                .orderBy(photo.id.desc())
+                .limit(size + 1)
+                .fetch();
+    }
+
+    private BooleanExpression categoryEq(Category category) {
+        return category != null ? photo.category.eq(category) : null;
+    }
+
+    private BooleanExpression cursorLt(Long cursor) {
+        return cursor != null ? photo.id.lt(cursor) : null;
+    }
+}
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/converter/AlbumConverter.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.converter;
+
+import kahlua.KahluaProject.domain.album.dto.request.PhotoRegisterRequest;
+import kahlua.KahluaProject.domain.album.dto.response.*;
+import kahlua.KahluaProject.domain.album.entity.Album;
+import kahlua.KahluaProject.domain.album.entity.EmojiType;
+import kahlua.KahluaProject.domain.album.entity.Photo;
+import kahlua.KahluaProject.domain.album.entity.PhotoReaction;
+import kahlua.KahluaProject.domain.user.entity.User;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+public class AlbumConverter {
+
+    public static PhotoItemResponse toPhotoItemResponse(Photo photo) {
+        return PhotoItemResponse.builder()
+                .photoId(photo.getId())
+                .thumbnailUrl(photo.getThumbnailUrl())
+                .uploaderName(photo.getUploader().getName())
+                .category(photo.getCategory().name())
+                .createdAt(photo.getCreatedAt())
+                .build();
+    }
+
+    public static PhotoListResponse toPhotoListResponse(Album album, List<Photo> photos, Long cursor, boolean hasNext) {
+        List<PhotoItemResponse> content = photos.stream()
+                .map(AlbumConverter::toPhotoItemResponse)
+                .collect(Collectors.toList());
+
+        return PhotoListResponse.builder()
+                .albumId(album.getId())
+                .albumTitle(album.getTitle())
+                .content(content)
+                .cursor(cursor)
+                .hasNext(hasNext)
+                .build();
+    }
+
+    public static PhotoDetailResponse toPhotoDetailResponse(Photo photo, List<PhotoReaction> reactions, User currentUser) {
+
+        UploaderInfo uploaderInfo = UploaderInfo.builder()
+                .id(photo.getUploader().getId())
+                .name(photo.getUploader().getName())
+                .term(photo.getUploader().getTerm() + "기")
+                .build();
+
+        Map<EmojiType, Long> countMap = reactions.stream()
+                .collect(Collectors.groupingBy(PhotoReaction::getEmojiType, Collectors.counting()));
+
+        Set<EmojiType> clickedByMe = reactions.stream()
+                .filter(reaction -> reaction.getUser().getId().equals(currentUser.getId()))
+                .map(PhotoReaction::getEmojiType)
+                .collect(Collectors.toSet());
+
+        List<ReactionItemResponse> reactionResponses = Arrays.stream(EmojiType.values())
+                .map(emoji -> ReactionItemResponse.builder()
+                        .emojiType(emoji.name())
+                        .count(countMap.getOrDefault(emoji, 0L).intValue())
+                        .isClicked(clickedByMe.contains(emoji))
+                        .build())
+                .collect(Collectors.toList());
+
+        return PhotoDetailResponse.builder()
+                .photoId(photo.getId())
+                .originalUrl(photo.getImageUrl())
+                .category(photo.getCategory().name())
+                .uploader(uploaderInfo)
+                .createdAt(photo.getCreatedAt())
+                .reactions(reactionResponses)
+                .build();
+    }
+
+    public static List<Photo> toPhotoList(PhotoRegisterRequest request, Album album, User currentUser, String baseUrl) {
+        return request.getPhotos().stream()
+                .map(item -> {
+                    String originalUrl = baseUrl + item.getS3Key();
+                    String thumbnailUrl = originalUrl.replace("/origin/", "/thumb/");
+                    int dotIndex = thumbnailUrl.lastIndexOf(".");
+                    if (dotIndex != -1) {
+                        thumbnailUrl = thumbnailUrl.substring(0, dotIndex) + "_small" + thumbnailUrl.substring(dotIndex);
+                    }
+
+                    return Photo.builder()
+                            .imageUrl(originalUrl)
+                            .thumbnailUrl(thumbnailUrl)
+                            .s3Key(item.getS3Key())
+                            .category(item.getCategory())
+                            .album(album)
+                            .uploader(currentUser)
+                            .build();
+                })
+                .collect(Collectors.toList());
+    }
+
+    public static PhotoRegisterResponse toPhotoRegisterResponse(List<Photo> savedPhotos) {
+        List<PhotoRegisterResponse.UploadedPhoto> uploadedPhotos = savedPhotos.stream()
+                .map(photo -> {
+                    UploaderInfo uploaderInfo = UploaderInfo.builder()
+                            .id(photo.getUploader().getId())
+                            .name(photo.getUploader().getName())
+                            .term(photo.getUploader().getTerm() + "기")
+                            .build();
+
+                    return PhotoRegisterResponse.UploadedPhoto.builder()
+                            .photoId(photo.getId())
+                            .thumbnailUrl(photo.getThumbnailUrl())
+                            .originalUrl(photo.getImageUrl())
+                            .category(photo.getCategory().name())
+                            .uploader(uploaderInfo)
+                            .createdAt(photo.getCreatedAt())
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+        return PhotoRegisterResponse.builder()
+                .uploadedPhotos(uploadedPhotos)
+                .build();
+    }
+
+    public static ReactionResponse toReactionResponse(
+            Long photoId,
+            EmojiType requestedEmoji,
+            long currentCount,
+            boolean isClicked,
+            EmojiType previousEmoji,
+            Long previousCount
+    ) {
+        return ReactionResponse.builder()
+                .photoId(photoId)
+                .emojiType(requestedEmoji)
+                .currentCount(currentCount)
+                .isClicked(isClicked)
+                .previousEmojiType(previousEmoji)
+                .previousCount(previousCount)
+                .build();
+    }
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/entity/EmojiType.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.entity;
+
+import lombok.Getter;
+
+@Getter
+public enum EmojiType {
+    LAUGH, ANGRY, SAD, HEART, CONFUSED
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/entity/Photo.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.entity;
+
+import jakarta.persistence.*;
+import kahlua.KahluaProject.domain.user.entity.User;
+import kahlua.KahluaProject.global.base.BaseEntity;
+import lombok.*;
+
+@Entity
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "photo")
+public class Photo extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "photo_id")
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "album_id", nullable = false)
+    private Album album;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "uploader_id", nullable = false)
+    private User uploader;
+
+    @Column(nullable = false)
+    private String thumbnailUrl; // Presigned URL로 업로드된 썸네일(저화질) S3 URL
+
+    @Column(nullable = false)
+    private String imageUrl; // Presigned URL로 업로드된 원본 이미지 S3 URL
+
+    @Column(nullable = false)
+    private String s3Key;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Category category;
+}
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/entity/Album.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.entity;
+
+import jakarta.persistence.*;
+import kahlua.KahluaProject.global.base.BaseEntity;
+import lombok.*;
+
+@Entity
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "album")
+public class Album extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "album_id")
+    private Long id;
+
+    @Column(nullable = false)
+    private String title;
+}
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/entity/Category.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.entity;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
+public enum Category {
+    FOUNDATION_FESTIVAL("창립제"),
+    YEAR_END_PARTY("송년회"),
+    PERFORMANCE("공연"),
+    ETC("기타");
+
+    private final String description;
+}
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/entity/PhotoReaction.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.entity;
+
+import jakarta.persistence.*;
+import kahlua.KahluaProject.domain.user.entity.User;
+import kahlua.KahluaProject.global.base.BaseEntity;
+import lombok.*;
+
+@Entity
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+        name = "photo_reaction",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_photo_user_reaction",
+                        columnNames = {"photo_id", "user_id"}
+                )
+        }
+)
+public class PhotoReaction extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "photo_reaction_id")
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "photo_id", nullable = false)
+    private Photo photo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EmojiType emojiType;
+
+    // 이모지 변경 메서드
+    public void updateEmoji(EmojiType newEmojiType) {
+        this.emojiType = newEmojiType;
+    }
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/facade/ReactionLockFacade.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.facade;
+
+import kahlua.KahluaProject.domain.album.dto.request.ReactionRequest;
+import kahlua.KahluaProject.domain.album.dto.response.ReactionResponse;
+import kahlua.KahluaProject.domain.album.service.AlbumService;
+import kahlua.KahluaProject.domain.user.entity.User;
+import kahlua.KahluaProject.global.apipayload.code.status.ErrorStatus;
+import kahlua.KahluaProject.global.exception.GeneralException;
+import lombok.RequiredArgsConstructor;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
+import org.springframework.stereotype.Component;
+
+import java.util.concurrent.TimeUnit;
+
+@Component
+@RequiredArgsConstructor
+public class ReactionLockFacade {
+
+    private final RedissonClient redissonClient;
+    private final AlbumService albumService;
+
+    public ReactionResponse toggleReactionWithLock(Long albumId, Long photoId, ReactionRequest request, User currentUser) {
+
+        String lockKey = String.format("lock:reaction:photo:%d:user:%d", photoId, currentUser.getId());
+        RLock lock = redissonClient.getLock(lockKey);
+
+        try {
+            // 락 획득 대기 시간(3초), 락 점유 시간(5초)
+            boolean available = lock.tryLock(3, 5, TimeUnit.SECONDS);
+
+            if (!available) {
+                // 너무 많은 동시 요청
+                throw new GeneralException(ErrorStatus.TOO_MANY_REQUESTS);
+            }
+
+            return albumService.toggleReaction(albumId, photoId, request, currentUser);
+
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("이모지 반응 처리 중 락 획득에 실패했습니다.", e);
+        } finally {
+            // 락 해제
+            if (lock.isLocked() && lock.isHeldByCurrentThread()) {
+                lock.unlock();
+            }
+        }
+    }
+}
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/controller/AlbumController.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.controller;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import kahlua.KahluaProject.domain.album.dto.request.*;
+import kahlua.KahluaProject.domain.album.dto.response.*;
+import kahlua.KahluaProject.domain.album.entity.Category;
+import kahlua.KahluaProject.domain.album.facade.ReactionLockFacade;
+import kahlua.KahluaProject.domain.album.service.AlbumService;
+import kahlua.KahluaProject.domain.album.service.S3Service;
+import kahlua.KahluaProject.domain.user.entity.UserType;
+import kahlua.KahluaProject.global.aop.checkAdmin.CheckUserType;
+import kahlua.KahluaProject.global.apipayload.ApiResponse;
+import kahlua.KahluaProject.global.apipayload.code.status.ErrorStatus;
+import kahlua.KahluaProject.global.exception.GeneralException;
+import kahlua.KahluaProject.global.security.AuthDetails;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.zip.ZipOutputStream;
+
+@Tag(name = "공유 앨범", description = "공유 앨범 관련 API")
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/v1/albums")
+public class AlbumController {
+
+    private final AlbumService albumService;
+    private final S3Service s3Service;
+    private final ReactionLockFacade reactionLockFacade;
+
+    @GetMapping("/{albumId}/photos")
+    // @CheckUserType(userType = {UserType.KAHLUA, UserType.ADMIN})
+    @Operation(summary = "깔루아 공유 앨범 페이지 및 사진 조회", description = "카테고리별 사진 목록을 커서 기반으로 조회합니다.")
+    public ApiResponse<PhotoListResponse> getPhotos(
+            @Parameter(description = "앨범 ID", example = "1") @PathVariable("albumId") Long albumId,
+            @Parameter(description = "사진 목록 카테고리별 조회 (없으면 전체 사진)", example = "PERFORMANCE") @RequestParam(value = "category", required = false) Category category,
+            @Parameter(description = "스크롤시 버퍼가 걸리는 마지막 사진의 ID", example = "189") @RequestParam(value = "cursor", required = false) Long cursor,
+            @Parameter(description = "한 번에 가져올 사진의 개수", example = "20") @RequestParam(value = "size", defaultValue = "20") int size
+    ) {
+        PhotoListResponse response = albumService.getPhotos(albumId, category, cursor, size);
+        return ApiResponse.onSuccess(response);
+    }
+
+    @GetMapping("/{albumId}/photos/{photoId}")
+    @Operation(summary = "사진 상세 조회", description = "사진의 원본과 이모지 반응 목록(내 클릭 여부 포함)을 조회합니다.")
+    public ApiResponse<PhotoDetailResponse> getPhotoDetail(
+            @AuthenticationPrincipal AuthDetails authDetails,
+            @Parameter(description = "앨범 ID", example = "1") @PathVariable("albumId") Long albumId,
+            @Parameter(description = "사진 ID", example = "200") @PathVariable("photoId") Long photoId
+    ) {
+        PhotoDetailResponse response = albumService.getPhotoDetail(albumId, photoId, authDetails.user());
+        return ApiResponse.onSuccess(response);
+    }
+
+    @GetMapping("/{albumId}/photos/my-reactions")
+    @Operation(summary = "내가 반응한 사진 목록 조회", description = "내가 이모지 반응을 남긴 사진들을 커서 기반으로 조회합니다.")
+    public ApiResponse<PhotoListResponse> getMyReactedPhotos(
+            @AuthenticationPrincipal AuthDetails authDetails,
+            @Parameter(description = "앨범 ID", example = "1") @PathVariable("albumId") Long albumId,
+            @Parameter(description = "스크롤 버퍼 마지막 사진 ID") @RequestParam(value = "cursor", required = false) Long cursor,
+            @Parameter(description = "한 번에 가져올 개수", example = "20") @RequestParam(value = "size", defaultValue = "20") int size
+    ) {
+        PhotoListResponse response = albumService.getMyReactedPhotos(albumId, cursor, size, authDetails.user());
+        return ApiResponse.onSuccess(response);
+    }
+
+    @PostMapping("/{albumId}/photos/presigned-url")
+    @Operation(summary = "Presigned URL 발급", description = "S3에 사진을 직접 업로드하기 위한 일회용 URL을 최대 20개 발급받습니다.")
+    public ApiResponse<PresignedUrlResponse> getPresignedUrls(
+            @AuthenticationPrincipal AuthDetails authDetails,
+            @Parameter(description = "앨범 ID") @PathVariable("albumId") Long albumId,
+            @RequestBody PresignedUrlRequest request
+    ) {
+        PresignedUrlResponse response = s3Service.getPresignedUrls(albumId, request);
+        return ApiResponse.onSuccess(response);
+    }
+
+    @PostMapping("/{albumId}/photos")
+    @Operation(summary = "사진 업로드", description = "S3 업로드가 완료된 사진들의 정보를 DB에 저장합니다.")
+    public ApiResponse<PhotoRegisterResponse> registerPhotos(
+            @AuthenticationPrincipal AuthDetails authDetails,
+            @Parameter(description = "앨범 ID", example = "1") @PathVariable("albumId") Long albumId,
+            @RequestBody PhotoRegisterRequest request
+    ) {
+        PhotoRegisterResponse response = albumService.registerPhotos(albumId, request, authDetails.user());
+        return ApiResponse.onSuccess(response);
+    }
+
+    @DeleteMapping("/{albumId}/photos")
+    @Operation(summary = "사진 삭제", description = "앨범에서 선택한 사진들을 DB와 S3에서 모두 삭제합니다.")
+    public ApiResponse<PhotoDeleteResponse> deletePhotos(
+            @PathVariable("albumId") Long albumId,
+            @RequestBody PhotoDeleteRequest request
+    ) {
+        PhotoDeleteResponse response = albumService.deletePhotos(albumId, request.getPhotoIds());
+        return ApiResponse.onSuccess(response);
+    }
+
+    @PostMapping("/{albumId}/photos/{photoId}/reactions")
+    @Operation(summary = "사진 이모지 반응 추가/변경/취소", description = "사진에 이모지 반응을 남깁니다. 이미 같은 이모지를 눌렀다면 취소되고, 다른 이모지로 누르면 변경됩니다.")
+    public ApiResponse<ReactionResponse> toggleReaction(
+            @AuthenticationPrincipal AuthDetails authDetails,
+            @Parameter(description = "앨범 ID", example = "1") @PathVariable("albumId") Long albumId,
+            @Parameter(description = "사진 ID", example = "200") @PathVariable("photoId") Long photoId,
+            @RequestBody ReactionRequest request
+    ) {
+        ReactionResponse response = reactionLockFacade.toggleReactionWithLock(albumId, photoId, request, authDetails.user());
+        return ApiResponse.onSuccess(response);
+    }
+
+    @GetMapping("/{albumId}/photos/{photoId}/download")
+    @Operation(summary = "단일 사진 다운로드", description = "선택한 사진 한 장을 다운로드할 수 있는 Presigned URL을 발급합니다.")
+    public ApiResponse<PhotoDownloadResponse> downloadPhoto(
+            @Parameter(description = "앨범 ID", example = "1") @PathVariable("albumId") Long albumId,
+            @Parameter(description = "사진 ID", example = "200") @PathVariable("photoId") Long photoId
+    ) {
+        PhotoDownloadResponse response = albumService.downloadPhoto(albumId, photoId);
+        return ApiResponse.onSuccess(response);
+    }
+
+    @PostMapping("/{albumId}/photos/download/batch")
+    @Operation(summary = "사진 복수 다운로드 (ZIP)", description = "선택한 여러 사진을 서버를 통해 실시간으로 압축하여 즉시 다운로드합니다.")
+    public ResponseEntity<StreamingResponseBody> downloadMultiplePhotosBatch(
+            @Parameter(description = "앨범 ID", example = "1") @PathVariable("albumId") Long albumId,
+            @RequestBody PhotoDownloadListRequest request
+    ) {
+        String dateStr = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"));
+        String zipFileName = String.format("KAHLUA_다운로드_%s.zip", dateStr);
+        String encodedFileName = URLEncoder.encode(zipFileName, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
+
+        StreamingResponseBody stream = out -> {
+            try (ZipOutputStream zos = new ZipOutputStream(out)) {
+                albumService.downloadMultiplePhotosStreaming(albumId, request, zos);
+            } catch (GeneralException e) {
+                throw e;
+            } catch (Exception e) {
+                throw new GeneralException(ErrorStatus.INTERNAL_SERVER_ERROR);
+            }
+        };
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename*=UTF-8''" + encodedFileName)
+                .contentType(MediaType.parseMediaType("application/zip"))
+                .body(stream);
+    }
+}
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/service/S3Service.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.service;
+
+import com.amazonaws.HttpMethod;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.Headers;
+import com.amazonaws.services.s3.model.*;
+import kahlua.KahluaProject.domain.album.dto.request.PresignedUrlRequest;
+import kahlua.KahluaProject.domain.album.dto.response.PresignedUrlResponse;
+import kahlua.KahluaProject.domain.album.entity.Photo;
+import kahlua.KahluaProject.global.apipayload.code.status.ErrorStatus;
+import kahlua.KahluaProject.global.exception.GeneralException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StreamUtils;
+
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+@Service
+@RequiredArgsConstructor
+public class S3Service {
+
+    private final AmazonS3 amazonS3;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
+    @Value("${cloud.aws.s3.base-url}") // yml에서 가져오기
+    private String baseUrl;
+
+    public PresignedUrlResponse getPresignedUrls(Long albumId, PresignedUrlRequest request) {
+
+        // 최대 20개 검증
+        if (request.getFiles().size() > 20) {
+            throw new GeneralException(ErrorStatus.IMAGE_NOT_UPLOAD);
+        }
+
+        List<PresignedUrlResponse.UrlItem> urlItems = new ArrayList<>();
+
+        for (PresignedUrlRequest.FileItem file : request.getFiles()) {
+            // 고유한 파일명 생성
+            String uniqueFileName = UUID.randomUUID().toString() + "_" + file.getFileName();
+            // S3에 저장될 실제 경로
+            String s3Key = "kahlua/albums/" + albumId + "/origin/" + uniqueFileName;
+
+            // URL 만료 시간 설정 (발급 후 2분 동안만 유효)
+            Date expiration = new Date();
+            long expTimeMillis = expiration.getTime() + (1000 * 60 * 2);
+            expiration.setTime(expTimeMillis);
+
+            // Presigned-URL 발급 요청 객체 생성
+            GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                    new GeneratePresignedUrlRequest(bucket, s3Key)
+                            .withMethod(HttpMethod.PUT) // 클라이언트가 S3에 서버를 거치지 않고 직접 데이터 전송
+                            .withExpiration(expiration);
+
+            // 프론트엔드가 이 타입으로 올리겠다고 명시
+            generatePresignedUrlRequest.addRequestParameter(Headers.CONTENT_TYPE, file.getFileType());
+
+            // 실제 URL 발급
+            URL presignedUrl = amazonS3.generatePresignedUrl(generatePresignedUrlRequest);
+
+            // 결과 리스트에 담기
+            urlItems.add(PresignedUrlResponse.UrlItem.builder()
+                    .presignedUrl(presignedUrl.toString())
+                    .s3Key(s3Key)
+                    .build());
+        }
+
+        return PresignedUrlResponse.builder()
+                .urlList(urlItems)
+                .build();
+    }
+
+    public void deleteFiles(List<String> s3Keys) {
+        if (s3Keys.isEmpty()) return;
+
+        // S3 삭제 요청서 생성
+        try {
+            DeleteObjectsRequest deleteObjectsRequest = new DeleteObjectsRequest(bucket)
+                    .withKeys(s3Keys.toArray(new String[0])); // 지울 파일들의 Key 목록 전달
+            amazonS3.deleteObjects(deleteObjectsRequest);
+        } catch (Exception e) {
+            throw new GeneralException(ErrorStatus.IMAGE_DELETE_FAILED);
+        }
+    }
+
+    public String getDownloadPresignedUrl(String s3Key, String downloadFileName) {
+
+        // 다운로드 링크 만료 시간 설정(5분)
+        Date expiration = new Date();
+        long expTimeMillis = expiration.getTime() + (1000 * 60 * 5);
+        expiration.setTime(expTimeMillis);
+
+        try {
+            GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                    new GeneratePresignedUrlRequest(bucket, s3Key)
+                            .withMethod(HttpMethod.GET)
+                            .withExpiration(expiration);
+
+            URL url = amazonS3.generatePresignedUrl(generatePresignedUrlRequest);
+            return url.toString();
+
+        } catch (Exception e) {
+            throw new GeneralException(ErrorStatus.IMAGE_DOWNLOAD_FAILED);
+        }
+    }
+
+    public void downloadPhotosAsZipStreaming(List<Photo> photos, ZipOutputStream zos) {
+        for (Photo photo : photos) {
+            try {
+                S3Object s3Object = amazonS3.getObject(bucket, photo.getS3Key());
+                try (S3ObjectInputStream is = s3Object.getObjectContent()) {
+
+                    // 확장자 추출 및 파일명 생성
+                    String extension = "";
+                    int dotIndex = photo.getS3Key().lastIndexOf(".");
+                    if (dotIndex != -1) {
+                        extension = photo.getS3Key().substring(dotIndex);
+                    }
+                    String fileName = "KAHLUA_PHOTO_" + photo.getId() + extension;
+
+                    // ZIP 엔트리 생성
+                    ZipEntry zipEntry = new ZipEntry(fileName);
+                    zos.putNextEntry(zipEntry);
+
+                    // S3 데이터 -> 서버 메모리 -> 클라이언트 ZIP 스트림으로 즉시 복사
+                    StreamUtils.copy(is, zos);
+                    zos.closeEntry();
+                }
+            } catch (Exception e) {
+                throw new GeneralException(ErrorStatus.IMAGE_DOWNLOAD_FAILED);
+            }
+        }
+    }
+}
+
+
+// ==========================================
+// File: src/main/java/kahlua/KahluaProject/domain/album/service/AlbumService.java
+// ==========================================
+package kahlua.KahluaProject.domain.album.service;
+
+import kahlua.KahluaProject.domain.album.converter.AlbumConverter;
+import kahlua.KahluaProject.domain.album.dto.request.PhotoDownloadListRequest;
+import kahlua.KahluaProject.domain.album.dto.request.PhotoRegisterRequest;
+import kahlua.KahluaProject.domain.album.dto.request.ReactionRequest;
+import kahlua.KahluaProject.domain.album.dto.response.*;
+import kahlua.KahluaProject.domain.album.entity.*;
+import kahlua.KahluaProject.domain.album.repository.AlbumRepository;
+import kahlua.KahluaProject.domain.album.repository.PhotoReactionRepository;
+import kahlua.KahluaProject.domain.album.repository.PhotoRepository;
+import kahlua.KahluaProject.domain.user.entity.User;
+import kahlua.KahluaProject.global.apipayload.code.status.ErrorStatus;
+import kahlua.KahluaProject.global.exception.GeneralException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.zip.ZipOutputStream;
+
+@Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
+public class AlbumService {
+
+    private final AlbumRepository albumRepository;
+    private final PhotoRepository photoRepository;
+    private final PhotoReactionRepository photoReactionRepository;
+    private final S3Service s3Service;
+
+    @Value("${cloud.aws.s3.base-url}")
+    private String baseUrl;
+
+    public PhotoListResponse getPhotos(Long albumId, Category category, Long cursor, int size) {
+
+        Album album = albumRepository.findByIdAndDeletedAtIsNull(albumId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.ALBUM_NOT_FOUND));
+
+        List<Photo> photos = photoRepository.findPhotosByCursorAndCategory(albumId, category, cursor, size);
+
+        boolean hasNext = photos.size() > size;
+        if (hasNext) {
+            photos.remove(size); // 정해진 응답 규격을 맞추기 위해 초과된 1개 삭제
+        }
+        Long nextCursor = photos.isEmpty() ? null : photos.get(photos.size() - 1).getId();
+
+        return AlbumConverter.toPhotoListResponse(album, photos, nextCursor, hasNext);
+    }
+
+    public PhotoDetailResponse getPhotoDetail(Long albumId, Long photoId, User currentUser) {
+
+        Photo photo = photoRepository.findByIdAndAlbumIdAndDeletedAtIsNull(photoId, albumId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.PHOTO_NOT_FOUND));
+
+        List<PhotoReaction> reactions = photoReactionRepository.findAllByPhoto(photo);
+
+        return AlbumConverter.toPhotoDetailResponse(photo, reactions, currentUser);
+    }
+
+    public PhotoListResponse getMyReactedPhotos(Long albumId, Long cursor, int size, User currentUser) {
+
+        Album album = albumRepository.findById(albumId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.ALBUM_NOT_FOUND));
+
+        List<Photo> photos = photoRepository.findReactedPhotosByCursor(albumId, currentUser.getId(), cursor, size);
+
+        boolean hasNext = photos.size() > size;
+        if (hasNext) {
+            photos.remove(size);
+        }
+        Long nextCursor = photos.isEmpty() ? null : photos.get(photos.size() - 1).getId();
+
+        return AlbumConverter.toPhotoListResponse(album, photos, nextCursor, hasNext);
+    }
+
+    @Transactional
+    public PhotoRegisterResponse registerPhotos(Long albumId, PhotoRegisterRequest request, User currentUser) {
+
+        Album album = albumRepository.findById(albumId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.ALBUM_NOT_FOUND));
+
+        if (request.getPhotos().size() > 20) {
+            throw new GeneralException(ErrorStatus.IMAGE_NOT_UPLOAD);
+        }
+
+        List<Photo> photos = AlbumConverter.toPhotoList(request, album, currentUser, baseUrl);
+
+        List<Photo> savedPhotos = photoRepository.saveAll(photos);
+
+        return AlbumConverter.toPhotoRegisterResponse(savedPhotos);
+    }
+
+    @Transactional
+    public PhotoDeleteResponse deletePhotos(Long albumId, List<Long> photoIds) {
+        List<Photo> photos = photoRepository.findAllById(photoIds);
+
+        if (photos.isEmpty()) {
+            throw new GeneralException(ErrorStatus.PHOTO_NOT_FOUND);
+        }
+
+        // S3에서 삭제할 Key 추출
+        List<String> s3Keys = photos.stream()
+                .map(Photo::getS3Key)
+                .toList();
+
+        // S3 파일 삭제
+        s3Service.deleteFiles(s3Keys);
+
+        // 이모지 반응 삭제 -> 사진 삭제(in DB)
+        photoReactionRepository.deleteAllByPhotoInQuery(photos);
+        photoRepository.deleteAllInBatch(photos);
+
+        return PhotoDeleteResponse.builder()
+                .deletedPhotoIds(photoIds)
+                .deletedCount(photos.size())
+                .build();
+    }
+
+    @Transactional
+    public ReactionResponse toggleReaction(Long albumId, Long photoId, ReactionRequest request, User currentUser) {
+
+        Photo photo = photoRepository.findByIdAndAlbumIdAndDeletedAtIsNull(photoId, albumId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.PHOTO_NOT_FOUND));
+
+        EmojiType requestedEmoji = request.getEmojiType();
+        EmojiType previousEmoji = null;
+        boolean isClicked;
+
+        // 사용자가 이 사진에 이미 남긴 반응이 있는지 확인
+        Optional<PhotoReaction> existingReaction = photoReactionRepository.findByPhotoAndUser(photo, currentUser);
+
+        if (existingReaction.isPresent()) {
+            PhotoReaction reaction = existingReaction.get();
+            if (reaction.getEmojiType() == requestedEmoji) {
+                // 같은 이모지를 눌렀다면 -> 반응 취소 (삭제)
+                photoReactionRepository.delete(reaction);
+                isClicked = false;
+            } else {
+                // 다른 이모지를 눌렀다면 -> 새로운 이모지로 변경 (업데이트)
+                previousEmoji = reaction.getEmojiType();
+                reaction.updateEmoji(requestedEmoji);
+                isClicked = true;
+            }
+        } else {
+            // 아직 반응을 남기지 않았다면 -> 새로 생성
+            PhotoReaction newReaction = PhotoReaction.builder()
+                    .photo(photo)
+                    .user(currentUser)
+                    .emojiType(requestedEmoji)
+                    .build();
+            photoReactionRepository.save(newReaction);
+            isClicked = true;
+        }
+
+        photoReactionRepository.flush();
+        long currentCount = photoReactionRepository.countByPhotoAndEmojiType(photo, requestedEmoji);
+
+        Long previousCount = null;
+        if (previousEmoji != null) {
+            previousCount = photoReactionRepository.countByPhotoAndEmojiType(photo, previousEmoji);
+        }
+
+        return AlbumConverter.toReactionResponse(
+                photoId, requestedEmoji, currentCount, isClicked, previousEmoji, previousCount
+        );
+    }
+
+    public PhotoDownloadResponse downloadPhoto(Long albumId, Long photoId) {
+
+        Photo photo = photoRepository.findByIdAndAlbumIdAndDeletedAtIsNull(photoId, albumId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.PHOTO_NOT_FOUND));
+
+        // 확장자 추출 (s3Key에서 마지막 '.' 이후 문자열)
+        String s3Key = photo.getS3Key();
+        String extension = "";
+        int dotIndex = s3Key.lastIndexOf(".");
+        if (dotIndex != -1) {
+            extension = s3Key.substring(dotIndex); // ex: .jpg, .png
+        }
+
+        String fileName = String.format("KAHLUA_PHOTO_%d%s", photoId, extension);
+
+        String downloadUrl = s3Service.getDownloadPresignedUrl(s3Key, fileName);
+
+        return PhotoDownloadResponse.builder()
+                .photoId(photoId)
+                .fileName(fileName)
+                .downloadUrl(downloadUrl)
+                .build();
+    }
+
+    public void downloadMultiplePhotosStreaming(Long albumId, PhotoDownloadListRequest request, ZipOutputStream zos) {
+
+        List<Photo> photos = photoRepository.findAllById(request.getPhotoIds());
+
+        if (photos.isEmpty() || photos.size() != request.getPhotoIds().size()) {
+            throw new GeneralException(ErrorStatus.PHOTO_NOT_FOUND);
+        }
+
+        boolean isAllInSameAlbum = photos.stream()
+                .allMatch(photo -> photo.getAlbum().getId().equals(albumId) && photo.getDeletedAt() == null);
+        if (!isAllInSameAlbum) {
+            throw new GeneralException(ErrorStatus.PHOTO_NOT_FOUND);
+        }
+
+        // S3 스트리밍 호출
+        s3Service.downloadPhotosAsZipStreaming(photos, zos);
+    }
+}
