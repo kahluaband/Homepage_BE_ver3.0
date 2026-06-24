@@ -78,13 +78,14 @@ public class AlbumConverter {
 
     public static List<Photo> toPhotoList(PhotoRegisterRequest request, Album album, User currentUser, String baseUrl) {
         String expectedPrefix = "kahlua/albums/" + album.getId() + "/origin/";
+        String safeBaseUrl = baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
 
         return request.getPhotos().stream()
                 .map(item -> {
                     if (!item.getS3Key().startsWith(expectedPrefix)) {
                         throw new GeneralException(ErrorStatus.INVALID_IMAGE_PATH);
                     }
-                    String originalUrl = baseUrl + item.getS3Key();
+                    String originalUrl = safeBaseUrl + item.getS3Key();
                     String thumbnailUrl = originalUrl.replace("/origin/", "/thumb/");
                     int dotIndex = thumbnailUrl.lastIndexOf(".");
                     if (dotIndex != -1) {
