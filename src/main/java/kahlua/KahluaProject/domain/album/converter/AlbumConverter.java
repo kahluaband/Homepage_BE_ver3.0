@@ -87,10 +87,12 @@ public class AlbumConverter {
                     }
                     String originalUrl = safeBaseUrl + item.getS3Key();
                     String thumbnailUrl = originalUrl; // 임시 조치
+
+                    /* 썸네일 조회 임시 조치를 위한 주석 처리
                     int dotIndex = thumbnailUrl.lastIndexOf(".");
                     if (dotIndex != -1) {
                         thumbnailUrl = thumbnailUrl.substring(0, dotIndex) + "_small" + thumbnailUrl.substring(dotIndex);
-                    }
+                    } */
 
                     return Photo.builder()
                             .imageUrl(originalUrl)
