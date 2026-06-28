@@ -39,7 +39,7 @@ public class AlbumService {
         Album album = albumRepository.findByIdAndDeletedAtIsNull(albumId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.ALBUM_NOT_FOUND));
 
-        List<Photo> photos = photoRepository.findPhotosByCursorAndCategory(albumId, category, cursor, size);
+        List<Photo> photos = photoRepository.findPhotosByCursorAndCategory(albumId, category, cursor, size+1);
 
         boolean hasNext = photos.size() > size;
         if (hasNext) {
