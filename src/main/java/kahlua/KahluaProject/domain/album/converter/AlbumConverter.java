@@ -86,7 +86,7 @@ public class AlbumConverter {
                         throw new GeneralException(ErrorStatus.INVALID_IMAGE_PATH);
                     }
                     String originalUrl = safeBaseUrl + item.getS3Key();
-                    String thumbnailUrl = originalUrl.replace("/origin/", "/thumb/");
+                    String thumbnailUrl = originalUrl; // 임시 조치
                     int dotIndex = thumbnailUrl.lastIndexOf(".");
                     if (dotIndex != -1) {
                         thumbnailUrl = thumbnailUrl.substring(0, dotIndex) + "_small" + thumbnailUrl.substring(dotIndex);
