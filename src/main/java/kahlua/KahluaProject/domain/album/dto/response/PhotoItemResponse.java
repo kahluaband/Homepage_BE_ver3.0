@@ -17,6 +17,9 @@ public class PhotoItemResponse {
     @Schema(description = "썸네일(저화질) URL", example = "https://cdn.kahluaband.com/thumb/photo200.webp")
     private String thumbnailUrl;
 
+    @Schema(description = "업로더 ID", example = "10")
+    private Long uploaderId;
+
     @Schema(description = "업로더 이름", example = "최승원")
     private String uploaderName;
 

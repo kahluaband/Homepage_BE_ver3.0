@@ -22,6 +22,7 @@ public class AlbumConverter {
         return PhotoItemResponse.builder()
                 .photoId(photo.getId())
                 .thumbnailUrl(photo.getThumbnailUrl())
+                .uploaderId(photo.getUploader().getId())
                 .uploaderName(photo.getUploader().getName())
                 .category(photo.getCategory().name())
                 .createdAt(photo.getCreatedAt())
