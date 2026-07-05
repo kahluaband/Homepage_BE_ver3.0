@@ -25,8 +25,7 @@ public class AlbumConverter {
                 .uploaderId(photo.getUploader().getId())
                 .uploaderName(photo.getUploader().getName())
                 .category(photo.getCategory().name())
-                .createdDate(photo.getCreatedAt().toLocalDate())
-                .createdTime(photo.getCreatedAt().toLocalTime())
+                .createdAt(photo.getCreatedAt())
                 .build();
     }
 
