@@ -5,7 +5,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Getter
 @Builder
@@ -28,5 +29,9 @@ public class PhotoItemResponse {
 
     @Schema(description = "생성 일자", example = "2026-03-16")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    private LocalDateTime createdAt;
+    private LocalDate createdDate;
+
+    @Schema(description = "생성 시간", example = "13:10:24")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss", timezone = "Asia/Seoul")
+    private LocalTime createdTime;
 }
