@@ -34,10 +34,12 @@ public class AlbumService {
     @Value("${cloud.aws.s3.base-url}")
     private String baseUrl;
 
-    public PhotoListResponse getPhotos(Long albumId, Category category, Long cursor, int size) {
+    public PhotoListResponse getPhotos(Long albumId, Category category, Long cursor, int size, User currentUser) {
 
         Album album = albumRepository.findByIdAndDeletedAtIsNull(albumId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.ALBUM_NOT_FOUND));
+
+        validateAlbumAccess(album, currentUser); // 권한 검증
 
         List<Photo> photos = photoRepository.findPhotosByCursorAndCategory(albumId, category, cursor, size+1);
 
@@ -55,6 +57,8 @@ public class AlbumService {
         Photo photo = photoRepository.findByIdAndAlbumId(photoId, albumId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.PHOTO_NOT_FOUND));
 
+        validateAlbumAccess(photo.getAlbum(), currentUser); // 권한 검증
+
         List<PhotoReaction> reactions = photoReactionRepository.findAllByPhoto(photo);
 
         return AlbumConverter.toPhotoDetailResponse(photo, reactions, currentUser);
@@ -64,6 +68,8 @@ public class AlbumService {
 
         Album album = albumRepository.findById(albumId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.ALBUM_NOT_FOUND));
+
+        validateAlbumAccess(album, currentUser); // 권한 검증
 
         List<Photo> photos = photoRepository.findReactedPhotosByCursor(albumId, currentUser.getId(), cursor, size);
 
@@ -82,6 +88,8 @@ public class AlbumService {
         Album album = albumRepository.findById(albumId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.ALBUM_NOT_FOUND));
 
+        validateAlbumAccess(album, currentUser); // 권한 검증
+
         if (request.getPhotos().size() > 20) {
             throw new GeneralException(ErrorStatus.IMAGE_NOT_UPLOAD);
         }
@@ -94,7 +102,12 @@ public class AlbumService {
     }
 
     @Transactional
-    public PhotoDeleteResponse deletePhotos(Long albumId, List<Long> photoIds) {
+    public PhotoDeleteResponse deletePhotos(Long albumId, List<Long> photoIds, User currentUser) {
+        Album album = albumRepository.findById(albumId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.ALBUM_NOT_FOUND));
+
+        validateAlbumAccess(album, currentUser); // 권한 검증
+
         List<Photo> photos = photoRepository.findAllById(photoIds);
 
         if (photos.isEmpty()) {
@@ -131,6 +144,8 @@ public class AlbumService {
 
         Photo photo = photoRepository.findByIdAndAlbumId(photoId, albumId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.PHOTO_NOT_FOUND));
+
+        validateAlbumAccess(photo.getAlbum(), currentUser); // 권한 검증
 
         EmojiType requestedEmoji = request.getEmojiType();
         EmojiType previousEmoji = null;
@@ -175,10 +190,12 @@ public class AlbumService {
         );
     }
 
-    public PhotoDownloadResponse downloadPhoto(Long albumId, Long photoId) {
+    public PhotoDownloadResponse downloadPhoto(Long albumId, Long photoId, User currentUser) {
 
         Photo photo = photoRepository.findByIdAndAlbumId(photoId, albumId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.PHOTO_NOT_FOUND));
+
+        validateAlbumAccess(photo.getAlbum(), currentUser); // 권한 검증
 
         // 확장자 추출 (s3Key에서 마지막 '.' 이후 문자열)
         String s3Key = photo.getS3Key();
@@ -199,7 +216,12 @@ public class AlbumService {
                 .build();
     }
 
-    public void downloadMultiplePhotosStreaming(Long albumId, PhotoDownloadListRequest request, ZipOutputStream zos) {
+    public void downloadMultiplePhotosStreaming(Long albumId, PhotoDownloadListRequest request, ZipOutputStream zos, User currentUser) { // currentUser 파라미터 추가
+
+        Album album = albumRepository.findById(albumId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.ALBUM_NOT_FOUND));
+
+        validateAlbumAccess(album, currentUser); // 권한 검증
 
         List<Photo> photos = photoRepository.findAllById(request.getPhotoIds());
 
@@ -215,5 +237,17 @@ public class AlbumService {
 
         // S3 스트리밍 호출
         s3Service.downloadPhotosAsZipStreaming(photos, zos);
+    }
+
+    private void validateAlbumAccess(Album album, User currentUser) {
+        // 전체 공유 앨범(ID가 1이거나 term이 null인 경우)은 누구나 접근 가능
+        if (album.getId() == 1L || album.getTerm() == null) {
+            return;
+        }
+
+        // 그 외의 앨범은 '앨범에 설정된 기수'와 '현재 접속한 유저의 기수'가 같아야만 통과
+        if (!album.getTerm().equals(currentUser.getTerm())) {
+            throw new GeneralException(ErrorStatus.FORBIDDEN_ALBUM_ACCESS);
+        }
     }
 }
