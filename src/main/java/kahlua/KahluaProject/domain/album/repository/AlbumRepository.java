@@ -6,4 +6,7 @@ import java.util.Optional;
 
 public interface AlbumRepository extends JpaRepository<Album, Long> {
     Optional<Album> findByIdAndDeletedAtIsNull(Long id);
+
+    // 특정 기수의 앨범 찾기
+    Optional<Album> findByTermAndDeletedAtIsNull(String term);
 }

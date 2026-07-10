@@ -33,12 +33,21 @@ import java.util.zip.ZipOutputStream;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/albums")
-@CheckUserType(userType = {UserType.KAHLUA, UserType.ADMIN})
+// @CheckUserType(userType = {UserType.KAHLUA, UserType.ADMIN})
 public class AlbumController {
 
     private final AlbumService albumService;
     private final S3Service s3Service;
     private final ReactionLockFacade reactionLockFacade;
+
+    @GetMapping("/my-term")
+    @Operation(summary = "내 기수 앨범 진입", description = "내 기수용 앨범 ID를 반환합니다. 앨범이 없다면 새로 생성하여 반환합니다.")
+    public ApiResponse<TermAlbumResponse> getOrCreateMyTermAlbum(
+            @AuthenticationPrincipal AuthDetails authDetails
+    ) {
+        TermAlbumResponse response = albumService.getOrCreateMyTermAlbum(authDetails.user());
+        return ApiResponse.onSuccess(response);
+    }
 
     @GetMapping("/{albumId}/photos")
     @Operation(summary = "깔루아 공유 앨범 페이지 및 사진 조회", description = "카테고리별 사진 목록을 커서 기반으로 조회합니다.")

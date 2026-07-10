@@ -246,8 +246,31 @@ public class AlbumService {
         }
 
         // 그 외의 앨범은 '앨범에 설정된 기수'와 '현재 접속한 유저의 기수'가 같아야만 통과
-        if (!album.getTerm().equals(currentUser.getTerm())) {
+        if (!album.getTerm().equals(String.valueOf(currentUser.getTerm()))) {
             throw new GeneralException(ErrorStatus.FORBIDDEN_ALBUM_ACCESS);
         }
+    }
+
+    @Transactional
+    public TermAlbumResponse getOrCreateMyTermAlbum(User currentUser) {
+        String myTerm = String.valueOf(currentUser.getTerm());
+
+        // 이미 내 기수 앨범이 있는지 확인
+        Optional<Album> existingAlbum = albumRepository.findByTermAndDeletedAtIsNull(myTerm);
+
+        if (existingAlbum.isPresent()) {
+            // 이미 있다면 기존 앨범 ID 반환
+            return new TermAlbumResponse(existingAlbum.get().getId());
+        }
+
+        // 없다면 최초 접속이므로 새 앨범 생성
+        Album newAlbum = Album.builder()
+                .title(myTerm + "기 공유 앨범")
+                .term(myTerm)
+                .build();
+
+        albumRepository.save(newAlbum);
+
+        return new TermAlbumResponse(newAlbum.getId());
     }
 }
