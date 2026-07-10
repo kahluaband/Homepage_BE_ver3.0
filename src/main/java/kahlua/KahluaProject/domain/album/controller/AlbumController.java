@@ -33,22 +33,32 @@ import java.util.zip.ZipOutputStream;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/albums")
+// @CheckUserType(userType = {UserType.KAHLUA, UserType.ADMIN})
 public class AlbumController {
 
     private final AlbumService albumService;
     private final S3Service s3Service;
     private final ReactionLockFacade reactionLockFacade;
 
+    @GetMapping("/my-term")
+    @Operation(summary = "내 기수 앨범 진입", description = "내 기수용 앨범 ID를 반환합니다. 앨범이 없다면 새로 생성하여 반환합니다.")
+    public ApiResponse<TermAlbumResponse> getOrCreateMyTermAlbum(
+            @AuthenticationPrincipal AuthDetails authDetails
+    ) {
+        TermAlbumResponse response = albumService.getOrCreateMyTermAlbum(authDetails.user());
+        return ApiResponse.onSuccess(response);
+    }
+
     @GetMapping("/{albumId}/photos")
-    // @CheckUserType(userType = {UserType.KAHLUA, UserType.ADMIN})
     @Operation(summary = "깔루아 공유 앨범 페이지 및 사진 조회", description = "카테고리별 사진 목록을 커서 기반으로 조회합니다.")
     public ApiResponse<PhotoListResponse> getPhotos(
+            @AuthenticationPrincipal AuthDetails authDetails,
             @Parameter(description = "앨범 ID", example = "1") @PathVariable("albumId") Long albumId,
             @Parameter(description = "사진 목록 카테고리별 조회 (없으면 전체 사진)", example = "PERFORMANCE") @RequestParam(value = "category", required = false) Category category,
             @Parameter(description = "스크롤시 버퍼가 걸리는 마지막 사진의 ID", example = "189") @RequestParam(value = "cursor", required = false) Long cursor,
             @Parameter(description = "한 번에 가져올 사진의 개수", example = "20") @RequestParam(value = "size", defaultValue = "20") int size
     ) {
-        PhotoListResponse response = albumService.getPhotos(albumId, category, cursor, size);
+        PhotoListResponse response = albumService.getPhotos(albumId, category, cursor, size, authDetails.user());
         return ApiResponse.onSuccess(response);
     }
 
@@ -100,10 +110,11 @@ public class AlbumController {
     @DeleteMapping("/{albumId}/photos")
     @Operation(summary = "사진 삭제", description = "앨범에서 선택한 사진들을 DB와 S3에서 모두 삭제합니다.")
     public ApiResponse<PhotoDeleteResponse> deletePhotos(
+            @AuthenticationPrincipal AuthDetails authDetails, // 권한 검증을 위해 추가됨
             @PathVariable("albumId") Long albumId,
             @RequestBody PhotoDeleteRequest request
     ) {
-        PhotoDeleteResponse response = albumService.deletePhotos(albumId, request.getPhotoIds());
+        PhotoDeleteResponse response = albumService.deletePhotos(albumId, request.getPhotoIds(), authDetails.user()); // currentUser 전달
         return ApiResponse.onSuccess(response);
     }
 
@@ -122,16 +133,18 @@ public class AlbumController {
     @GetMapping("/{albumId}/photos/{photoId}/download")
     @Operation(summary = "단일 사진 다운로드", description = "선택한 사진 한 장을 다운로드할 수 있는 Presigned URL을 발급합니다.")
     public ApiResponse<PhotoDownloadResponse> downloadPhoto(
+            @AuthenticationPrincipal AuthDetails authDetails,
             @Parameter(description = "앨범 ID", example = "1") @PathVariable("albumId") Long albumId,
             @Parameter(description = "사진 ID", example = "200") @PathVariable("photoId") Long photoId
     ) {
-        PhotoDownloadResponse response = albumService.downloadPhoto(albumId, photoId);
+        PhotoDownloadResponse response = albumService.downloadPhoto(albumId, photoId, authDetails.user()); // currentUser 전달
         return ApiResponse.onSuccess(response);
     }
 
     @PostMapping("/{albumId}/photos/download/batch")
     @Operation(summary = "사진 복수 다운로드 (ZIP)", description = "선택한 여러 사진을 서버를 통해 실시간으로 압축하여 즉시 다운로드합니다.")
     public ResponseEntity<StreamingResponseBody> downloadMultiplePhotosBatch(
+            @AuthenticationPrincipal AuthDetails authDetails,
             @Parameter(description = "앨범 ID", example = "1") @PathVariable("albumId") Long albumId,
             @RequestBody PhotoDownloadListRequest request
     ) {
@@ -141,7 +154,7 @@ public class AlbumController {
 
         StreamingResponseBody stream = out -> {
             try (ZipOutputStream zos = new ZipOutputStream(out)) {
-                albumService.downloadMultiplePhotosStreaming(albumId, request, zos);
+                albumService.downloadMultiplePhotosStreaming(albumId, request, zos, authDetails.user());
             } catch (GeneralException e) {
                 throw e;
             } catch (Exception e) {

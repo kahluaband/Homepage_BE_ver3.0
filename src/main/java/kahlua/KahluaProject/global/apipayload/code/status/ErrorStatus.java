@@ -67,7 +67,8 @@ public enum ErrorStatus implements BaseCode {
     PHOTO_NOT_FOUND(HttpStatus.NOT_FOUND, "PHOTO_NOT_FOUND", "존재하지 않는 사진입니다."),
     IMAGE_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "IMAGE_NOT_DELETED", "S3에서 이미지 삭제에 실패했습니다."),
     IMAGE_DOWNLOAD_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "ALBUM500", "이미지를 다운로드하거나 압축하는 중 오류가 발생했습니다."),
-    INVALID_IMAGE_PATH(HttpStatus.BAD_REQUEST, "IMAGE4002", "잘못되거나 권한이 없는 이미지 경로입니다.");
+    INVALID_IMAGE_PATH(HttpStatus.BAD_REQUEST, "IMAGE4002", "잘못되거나 권한이 없는 이미지 경로입니다."),
+    FORBIDDEN_ALBUM_ACCESS(HttpStatus.FORBIDDEN, "ALBUM4031", "해당 기수 앨범에 접근할 권한이 없습니다."),
 
     ;
 
