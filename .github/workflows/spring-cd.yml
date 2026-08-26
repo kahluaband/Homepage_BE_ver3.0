@@ -2,7 +2,7 @@ name: Spring Boot & Gradle CD
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "dev" ]
 
 jobs:
   cd:

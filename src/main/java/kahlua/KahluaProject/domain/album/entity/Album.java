@@ -19,4 +19,7 @@ public class Album extends BaseEntity {
 
     @Column(nullable = false)
     private String title;
+
+    @Column(name = "term")
+    private String term;
 }

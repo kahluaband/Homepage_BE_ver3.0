@@ -28,7 +28,6 @@ public class PhotoRepositoryImpl implements PhotoRepositoryCustom {
                 .join(photo.uploader, user).fetchJoin()
                 .where(
                         photo.album.id.eq(albumId),
-                        photo.deletedAt.isNull(),
                         categoryEq(category),
                         cursorLt(cursor)
                 )
@@ -49,8 +48,7 @@ public class PhotoRepositoryImpl implements PhotoRepositoryCustom {
                 .join(photo.uploader, user).fetchJoin()
                 .where(
                         photo.album.id.eq(albumId),
-                        photo.deletedAt.isNull(),
-                        photoReaction.user.id.eq(userId), // 현재 로그인한 사용자가 남긴 반응만!
+                        photoReaction.user.id.eq(userId), // 현재 로그인한 사용자가 남긴 반응
                         cursorLt(cursor)
                 )
                 .distinct() // 한 사진에 여러 반응을 남겼을 경우 중복 조회 방지

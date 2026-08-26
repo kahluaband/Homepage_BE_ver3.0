@@ -17,13 +17,16 @@ public class PhotoItemResponse {
     @Schema(description = "썸네일(저화질) URL", example = "https://cdn.kahluaband.com/thumb/photo200.webp")
     private String thumbnailUrl;
 
+    @Schema(description = "업로더 ID", example = "10")
+    private Long uploaderId;
+
     @Schema(description = "업로더 이름", example = "최승원")
     private String uploaderName;
 
     @Schema(description = "카테고리", example = "공연")
     private String category;
 
-    @Schema(description = "생성 일자", example = "2026-03-16")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    @Schema(description = "생성 일시", example = "2026-03-16 13:10:24")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdAt;
 }
