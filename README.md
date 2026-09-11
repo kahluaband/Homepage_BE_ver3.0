@@ -1,8 +1,6 @@
 # Homepage_BE_ver3.0
 ### Kahluaproject Spring Boot version
 
-<img src="https://github.com/user-attachments/assets/9b42ebb8-a85c-4146-8596-b50f797b02f6" height=70% width=70%>
-
 🧷 https://kahluaband.com
 
 # KAHLUA_BE
