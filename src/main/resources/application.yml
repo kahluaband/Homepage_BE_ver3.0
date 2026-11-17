@@ -36,12 +36,12 @@ spring:
             redirect-uri: http://localhost:3000/callback
             authorization-grant-type: authorization_code
           google-local:
-            client-id: 188928736325-sv4o7tcvon1eoa75e4aiap49bke0bsqj.apps.googleusercontent.com
+            client-id: ${GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_CLIENT_SECRET}
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:3000/login/oauth2/code/google
           google-prod:
-            client-id: 188928736325-sv4o7tcvon1eoa75e4aiap49bke0bsqj.apps.googleusercontent.com
+            client-id: ${GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_CLIENT_SECRET}
             authorization-grant-type: authorization_code
             redirect-uri: https://kahluaband.com/login/oauth2/code/google
@@ -74,7 +74,6 @@ spring:
       mail.smtp.auth: true
 
 logging:
-  config: classpath:logback-spring.xml
   discord:
     webhook-url: ${DISCORD_WEBHOOK_URL:}
 
