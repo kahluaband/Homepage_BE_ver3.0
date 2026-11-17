@@ -36,8 +36,8 @@ spring:
             redirect-uri: http://localhost:3000/callback
             authorization-grant-type: authorization_code
           google-local:
-            client-id: ${GOOGLE_CLIENT_ID}
-            client-secret: ${GOOGLE_CLIENT_SECRET}
+            client-id: ${GOOGLE_LOCAL_CLIENT_ID}
+            client-secret: ${GOOGLE_LOCAL_CLIENT_SECRET}
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:3000/login/oauth2/code/google
           google-prod:
