@@ -36,11 +36,20 @@ out/
 ### VS Code ###
 .vscode/
 
-### yml ###
-application.yml
+### Docker ###
 docker-compose.yml
 
+### Environment Variables ###
+.env
+.env.*
+*.env
+!*.env.example
+!.env.example
+
+### OS ###
 test.html.DS_Store
 .DS_Store
 
+### Private Keys ###
 *.pem
+*.key

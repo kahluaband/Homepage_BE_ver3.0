@@ -1,0 +1,28 @@
+# Environment variables
+.env
+.env.*
+**/.env
+**/.env.*
+**/*.env
+
+# Private keys
+**/*.pem
+**/*.key
+
+# Git
+.git
+.gitignore
+
+# IDE
+.idea
+.vscode
+*.iml
+
+# Gradle cache
+.gradle
+
+# OS
+**/.DS_Store
+
+# Logs
+**/*.log
