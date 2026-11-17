@@ -1,0 +1,103 @@
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: demo
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/kahluadb?createDatabaseIfNotExist=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client_id: 0bd2a2f7fb609fa9f264b3e58828ce40
+            redirect-uri: http://localhost:3000/callback
+            authorization-grant-type: authorization_code
+          google-local:
+            client-id: 188928736325-sv4o7tcvon1eoa75e4aiap49bke0bsqj.apps.googleusercontent.com
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:3000/login/oauth2/code/google
+          google-prod:
+            client-id: 188928736325-sv4o7tcvon1eoa75e4aiap49bke0bsqj.apps.googleusercontent.com
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            authorization-grant-type: authorization_code
+            redirect-uri: https://kahluaband.com/login/oauth2/code/google
+        provider:
+          kakao:
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            token-uri: https://kauth.kakao.com/oauth/token
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+          google-local:
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            token-uri: https://oauth2.googleapis.com/token
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+          google-prod:
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            token-uri: https://oauth2.googleapis.com/token
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+      authorization server:
+        endpoint:
+          token-uri: https://oauth2.googleapis.com/token
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail.smtp.debug: false
+      mail.smtp.connectiontimeout: 1000
+      mail.smtp.starttls.enable: true
+      mail.smtp.auth: true
+
+logging:
+  config: classpath:logback-spring.xml
+  discord:
+    webhook-url: ${DISCORD_WEBHOOK_URL:}
+
+jwt:
+  secret: ${JWT_SECRET}
+  token:
+    access-expiration-time: 43200000
+    refresh-expiration-time: 604800000
+
+cloud:
+  aws:
+    s3:
+      bucket: kahlua-bucket
+      base-url: https://kahlua-bucket.s3.ap-northeast-2.amazonaws.com
+    stack.auto: false
+    region.static: ap-northeast-2
+
+kakao:
+  client_id: 0bd2a2f7fb609fa9f264b3e58828ce40
+  redirect_uri: http://localhost:3000/callback
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus

@@ -1,0 +1,49 @@
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
+
+  data:
+    redis:
+      host: kahlua_redis
+      port: 6379
+
+  mail:
+    properties:
+      mail.smtp.debug: false
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            redirect-uri: http://localhost:3000/callback
+
+          google-prod:
+            redirect-uri: https://kahluaband.com/login/oauth2/code/google
+
+jwt:
+  token:
+    access-expiration-time: 43200000
+    refresh-expiration-time: 2592000000
+
+kakao:
+  redirect_uri: http://localhost:3000/callback
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
