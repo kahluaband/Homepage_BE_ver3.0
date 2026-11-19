@@ -1,19 +1,38 @@
-name: Spring Boot & Gradle CI
+name: CI
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+      - dev
+  push:
+    branches:
+      - feat/**
+      - fix/**
+      - refactor/**
+      - chore/**
+
+permissions:
+  contents: read
 
 jobs:
-  ci:
-    uses: kjiyun/CI-CD-pipeline-standard/.github/workflows/java-gradle-ci.yml@master
-    # 참고: https://github.com/kjiyun/CI-CD-pipeline-standard
-    with:
-      java-version: "17"
-      distribution: "temurin"
-      build-command: "false"
-      test-command: "false"
-      upload-artifacts: true
-      write-application-yml: true
-    secrets:
-      APPLICATION: ${{ secrets.APPLICATION }}
+  build:
+    name: Build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
+        with:
+          java-version: '17'
+          distribution: temurin
+          cache: gradle
+
+      - name: Run Gradle tests
+        run: ./gradlew --no-daemon --console=plain test
